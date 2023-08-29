@@ -32,7 +32,7 @@ Increasing customer retention and optimizing marketing resource allocation are c
 ## Quick glance at the results
 TODO
 
-## Lessons learned and recommendation**
+## Lessons learned and recommendations
 
 ## Limitation and what can be improved
 
@@ -42,7 +42,7 @@ TODO
 - Web-scraping: BeautifulSoup
 - Data Validation
 - Exploratory Data Analysis (EDA)
-- Natual Language Processing (NLP): NLTK, Vectorizing, Tokenizing
+- Natual Language Processing (NLP): Vectorizing, Tokenizing, Principal Component Analysis (PCA)
 - Supervised Machine Learning: Logistic Regression, Random Forest
 - A/B Testing
   
