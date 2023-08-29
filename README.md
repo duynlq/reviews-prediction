@@ -12,16 +12,6 @@ Badge [source](https://shields.io/)
 ## Author
 - [@duynlq](https://github.com/duynlq)
 
-## Table of Contents
-
-  - [Business Problem](#business-problem)
-  - [Data Source](#data-source)
-  - [Methods](#methods)
-  - [Tech Stack](#tech-stack)
-  - [Quick glance at the results](#quick-glance-at-the-results)
-  - [Limitation and what can be improved](#limitation-and-what-can-be-improved)
-  - [Repository Structure](#repository-structure)
-
 ## Business Problem
 
 Increasing customer retention and optimizing marketing resource allocation are critical challenges for the hospitality industry. I aim to develop an optimal predictive model that identifies customers at a high risk of churning from our services. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn. By achieving a high rate of predicting customers who will actually churn, we can ensure that our marketing efforts are targeted towards the proper audience, therefore maximizing our customer retention rates and reducing unnecessary marketing expenses.
