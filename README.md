@@ -27,7 +27,9 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - Customers are more likely to put trust in a hotel based on its recent reviews. 59% of my scraped reviews are from 2023, despite having a time range from December 2017 to August 2023.
 
 ![class distribution](images/class_distribution.png)
-- Class imbalance in the ratings distribution can negatively impact the accuracy of my models.
+- Class imbalance in the ratings distribution can negatively impact the accuracy of my models. Converting the target variable to a binary variable, in this case churn or non-churn, will serve the models better.
+- It also can be assumed that there is strong evidence in reviews starred 4 and 5 that the customer in question will most likely book a room again or recommend it to friends or family, while giving constructive criticism for some minor negative experience. These customers will be put in the non-churn category.
+- Likewise, there is strong evidence in reviews starred 3, 2 and 1 that the customer in question will either state that the hotel is average compared to others, gave largely negative comments to a majority of their experience, and frankly denies to recommend the hotel to anyone based on their entire experience. These customers will be put in the churn category.
 
 ## Quick glance at the results
 TODO
