@@ -1,3 +1,4 @@
+import numpy as np
 from requests import get
 from bs4 import BeautifulSoup as soup
 from random import randint
@@ -27,7 +28,7 @@ sys.path.insert(0, parentdir)
 start_time = time.time()
 
 # This loop scrapes the first 10 pages of each hotel from the below "url"
-hotel_pages = ["", "oa30-", "oa60-", "oa90-", "oa120-", "oa150-", "oa180-", "oa210-", "oa240-", "oa270-"]  # noqa: E501
+hotel_pages = [""]  # , "oa30-", "oa60-", "oa90-", "oa120-", "oa150-", "oa180-", "oa210-", "oa240-", "oa270-"]  # noqa: E501
 
 reviews = []
 churn = []
@@ -68,9 +69,9 @@ for page in hotel_pages:
 
             print(hotelName.text)
 
-            reviewWithReadmoreAndTitle = " ".join((title.span.text.strip(), reviewWithReadmore.span.text.strip()))  # noqa: E501
+            # reviewWithReadmoreAndTitle = " ".join((title.span.text.strip(), reviewWithReadmore.span.text.strip()))  # noqa: E501
             tokenizer = RegexpTokenizer(r'\w+')
-            word_list = tokenizer.tokenize(reviewWithReadmoreAndTitle.lower())
+            word_list = tokenizer.tokenize(reviewWithReadmore.span.text.strip().lower())  # noqa: E501
             output = [w for w in word_list if not w in stop_words]  # noqa: E501
             processed_review = ' '.join(word_list)
             print(processed_review)
