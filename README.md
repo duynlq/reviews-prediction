@@ -1,7 +1,7 @@
 ![banner](images/hotel_incentive.png)
 
-![Tools](https://img.shields.io/badge/Tool-Python-lightgrey)
-![Type of ML](https://img.shields.io/badge/Method-Supervised_ML-red)
+![Tools](https://img.shields.io/badge/Tools-Python,_SQL,_Tableau-yellow)
+![Methods](https://img.shields.io/badge/Methods-Webscraping,_EDA,_NLP,_Gridsearch,_PCA,_Logistic_Regression,_Random_Forest-red)
 ![GitHub last commit](https://img.shields.io/github/last-commit/duynlq/scraped-reviews-customer-churn-prediction)
 ![GitHub repo size](https://img.shields.io/github/repo-size/duynlq/scraped-reviews-customer-churn-prediction)
 
@@ -14,7 +14,7 @@ Badge [source](https://shields.io/)
 
 ## Business Problem
 
-Increasing customer retention and optimizing marketing resource allocation are critical challenges for the hospitality industry. I aim to develop an optimal predictive model that identifies customers at a high risk of churning from our services. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn. By achieving a high rate of predicting customers who will actually churn, we can ensure that our marketing efforts are targeted towards the proper audience, and therefore maximizing our customer retention rates and reducing unnecessary marketing expenses.
+Increasing customer retention and optimizing marketing resource allocation are critical challenges for the hospitality industry. I aim to develop an optimal predictive model that identifies customers at a high risk of churning from our services. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn (false positives). By achieving a high rate of predicting customers who will actually churn (true positives), we can ensure that our marketing efforts are targeted towards the proper audience, and therefore maximizing our customer retention rates and reducing unnecessary marketing expenses.
 
 ## Data Source
 
@@ -31,6 +31,12 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - It also can be assumed that there is strong evidence in reviews starred 4 and 5 that the customer in question will most likely book a room again or recommend it to friends or family, while giving constructive criticism for some minor negative experience. These customers will be put in the non-churn category.
 - Likewise, there is strong evidence in reviews starred 3, 2 and 1 that the customer in question will either state that the hotel is average compared to others, gave largely negative comments to a majority of their experience, and frankly denies to recommend the hotel to anyone based on their entire experience. These customers will be put in the churn category.
 
+## Pre-Modeling Summary
+- A train/test split of 70/30 was used on both the rows of reviews, and rows of churn/non-churn. This ratio is a fairly common practice.
+- To aid the predictive ability of my model, the vocabulary of words extracted from the reviews will include nouns, adjectives, verbs, and adverbs. "Early [research papers] (1) has focused on using adjectives such as ‘good’ and ‘bad’ and adverbs like ‘terrifically’ and ‘hatefully’ as the important indicators of sentiment (2). Intuitively, this is what we would expect of an opinionated document. However, later [research papers] (3) also suggests that other parts of speech such as verbs and even nouns (4) could be valuable indicators of sentiment."
+- Additionally, TF-IDF Vectorizer is used to omit terms that both appear in more than 10% and less than 5% of the vectorized documents of reviews.
+- Vectorized reviews are scaled from 0 to 1 via MinMaxScaler() prior to dimensionality reduction via PCA.
+
 ## Quick glance at the results
 TODO
 
@@ -38,17 +44,16 @@ TODO
 
 ## Limitation and what can be improved
 
+
 ## Repository Structure
 
 ## Methods
-- Web-scraping: BeautifulSoup
-- Data Validation
-- Exploratory Data Analysis (EDA)
-- Natual Language Processing (NLP): Vectorizing, Tokenizing, Principal Component Analysis (PCA)
+- Natual Language Processing (NLP): Tokenizing, Lemmatizing, Vectorizing, Principal Component Analysis (PCA)
 - Supervised Machine Learning: Logistic Regression, Random Forest
 - A/B Testing
-  
-## Tech Stack
-- Python
-- SQL
-- Tableau
+
+## References
+- (1) https://dl.acm.org/doi/10.3115/976909.979640
+- (2) https://www.sciencedirect.com/science/article/pii/S0167923612001340#bb0070
+- (3) https://dl.acm.org/doi/10.1145/1099554.1099714
+- (4) https://dl.acm.org/doi/10.3115/1119176.1119180
