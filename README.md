@@ -37,16 +37,17 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - **_Premodeling_** TfidfVectorizer() is used to omit terms that both appear in more than 10% and less than 5% of the vectorized documents of reviews. Vectorized reviews are then scaled from 0 to 1 via MinMaxScaler() prior to dimensionality reduction via PCA(); 0 to 1 scaling is a must for PCA.
   
 ## Results
-| Model    | Accuracy | Precision (Churn) | Recall (Churn) | Precision (Non-churn) | Recall (Non-churn) |
-| -------- | ------- | -------- | ------- | -------- | ------- |
-| Logistic Regression       | 84% | 72% | 87% | 93% | 82% |
-| Logistic Regression (PCA) | 83% | 71% | 86% | 92% | 82% |
-| Random Forest             | 86% | 85% | 71% | 86% | 93% |
-| Decision Tree             | 78% | 70% | 65% | 82% | 85% |
-| Decision Tree (PCA)       | 81% | 74% | 70% | 85% | 87% |
+| Model    | Accuracy | Precision (Churn) | Recall (Churn) |
+| -------- | ------- | -------- | ------- |
+| Logistic Regression       | 84% | 72% | 87% |
+| Logistic Regression (PCA) | 83% | 71% | 86% |
+| Random Forest             | 86% | 85% | 71% |
+| Decision Tree             | 78% | 70% | 65% |
+| Decision Tree (PCA)       | 81% | 74% | 70% |
 ### Precision vs Recall
 ![precisionvsrecall](images/precision_vs_recall.png)
-- As mentioned earlier, since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn, or False Positives (FP). By achieving a high rate of predicting customers who will actually churn, or True Positives (TP), we can ensure that our marketing efforts are targeted towards the proper audience.
+- As mentioned earlier, by achieving a high rate of predicting customers who will actually churn, or True Positives (TP), we can ensure that our marketing efforts are targeted towards the proper audience. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn, or False Positives (FP).
+- Naturally, our goal stated above aligns with the need to strive for a high precision.
 
 ## Modeling Thought Process
 - **_Why these models?_**
