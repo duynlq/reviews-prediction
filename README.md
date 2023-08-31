@@ -44,8 +44,9 @@ Increasing customer retention and optimizing marketing resource allocation are c
 | Random Forest             | 86% | 85% | 71% | 86% | 93% |
 | Decision Tree             | 78% | 70% | 65% | 82% | 85% |
 | Decision Tree (PCA)       | 81% | 74% | 70% | 85% | 87% |
-#### Precision vs Recall
+### Precision vs Recall
 ![precisionvsrecall](images/precision_vs_recall.png)
+- As mentioned earlier, since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn, or False Positives (FP). By achieving a high rate of predicting customers who will actually churn, or True Positives (TP), we can ensure that our marketing efforts are targeted towards the proper audience.
 
 ## Modeling Thought Process
 - **_Why these models?_**
