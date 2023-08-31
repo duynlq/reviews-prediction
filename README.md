@@ -39,9 +39,13 @@ Increasing customer retention and optimizing marketing resource allocation are c
 ## Results
 | Model    | Accuracy | Precision (Churn) | Recall (Churn) | Precision (Non-churn) | Recall (Non-churn) |
 | -------- | ------- | -------- | ------- | -------- | ------- |
-| Logistic Regression | 82% | 70% | 85% | 91% | 81% |
-| Random Forest       | 86% | 85% | 71% | 86% | 93% |
-| Decision Tree       | $420 | February | $80 | January | $250 |
+| Logistic Regression       | 84% | 72% | 87% | 93% | 82% |
+| Logistic Regression (PCA) | 83% | 71% | 86% | 92% | 82% |
+| Random Forest             | 86% | 85% | 71% | 86% | 93% |
+| Decision Tree             | 78% | 70% | 65% | 82% | 85% |
+| Decision Tree (PCA)       | 81% | 74% | 70% | 85% | 87% |
+#### Precision vs Recall
+![precisionvsrecall](images/precision_vs_recall.png)
 
 ## Modeling Thought Process
 - **_Why these models?_**
@@ -51,8 +55,8 @@ Increasing customer retention and optimizing marketing resource allocation are c
 
 ## Lessons learned and recommendations
 
-## Limitation and what can be improved
-
+## Limitations & Future Improvements
+- PCA is known to perform worse for datasets with more features than samples. The number of "features" created by preprocessing is far too greater than the number of review samples scraped, which is only around 2000. With the ability to scrape a much larger number of recent reviews, we will see a bigger gap between the PCA and non-PCA in terms of performance.
 
 ## Repository Structure
 
