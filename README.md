@@ -1,7 +1,7 @@
 ![banner](images/hotel_incentive.png)
 
 ![Tools](https://img.shields.io/badge/Tools-Python,_SQL,_Tableau-yellow)
-![Methods](https://img.shields.io/badge/Methods-Webscraping,_EDA,_NLP,_Gridsearch,_PCA,_Logistic_Regression,_Random_Forest-red)
+![Methods](https://img.shields.io/badge/Methods-Webscraping,_NLP,_Supervised_ML-red)
 ![GitHub last commit](https://img.shields.io/github/last-commit/duynlq/scraped-reviews-customer-churn-prediction)
 ![GitHub repo size](https://img.shields.io/github/repo-size/duynlq/scraped-reviews-customer-churn-prediction)
 
@@ -24,7 +24,7 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - Customers are more likely to put trust in a hotel based on its recent reviews. 59% of my scraped reviews are from 2023, despite having a time range from December 2017 to August 2023.
   ![reviews distribution](images/scraped_reviews_distribution.png)
 
-## Data Cleaning
+## Data Validation & Cleaning
 - **_Duplicate Removal:_** Removing duplicate reviews is a must to avoid introducing bias to our models. Since the rows of reviews (independent variable) are our only interest, duplicates were checked and none were found.
 - **_Missing Data:_** Among all columns, missing values was only found in the "date_stayed" column, but since this variable was only used for visualizations and not in our models, it was left as is.
 - **_Text Cleaning:_** The reviews that are stored in my local database, which embody both the title and the "Read More" section of the reviews, are extracted from the "span" HTML tag and processed by the following steps:
@@ -33,13 +33,7 @@ Increasing customer retention and optimizing marketing resource allocation are c
   - Remove English stop words from "stop_words" (174 stop words) and "nltk" (179 stop words) Python libraries.
   - Remove punctuations.
 
-## Validation Tests Prior to Modeling
-- **_Distribution of Ratings & Target Labeling_:**
-  - ![class distribution](images/class_distribution.png)
-  - Class imbalance in the ratings distribution can negatively impact the accuracy of my models. Converting the target variable to a binary variable, in this case churn or non-churn, will help alleviate this class imbalance.
-  - To aid this decision for target labeling, it can be assumed that there is strong evidence in reviews starred 4 and 5 that the customer in question will most likely book a room again or recommend it to friends or family, while giving constructive criticism for some minor negative experience. These customers will be put in the non-churn category.
-  - Likewise, there is strong evidence in reviews starred 3, 2 and 1 that the customer in question will either state that the hotel is average compared to others, gave largely negative comments to a majority of their experience, and frankly denies to recommend the hotel to anyone based on their entire experience. These customers will be put in the churn category.
-  - Since the class balance is roughly 1:2 now (churn:non-churn), we can simply use the tuning hyperparameter "class_weight" available in all our compared models, instead of considering techniques like resampling or SMOTE. Such techniques **_will_** be necessary when building models that predict multiple classes, such as the five unique ratings apparent in the reviews.
+## Preprocessing
 - **_Text Processing:_** The following steps are necessary for building a quality vocabulary from the cleaned corpus, or collection of texts, before converting it into numerical features that are most suitable for machine learning algorithms.
   - Tokenize by isolating one or more uppercase and lowercase letters appeared in a row (AAAHH).
   - Tokenize by isolating one or more lowercase letters immediately following an apostrophe "'" appeared in a row (I'mm).
@@ -53,39 +47,54 @@ Increasing customer retention and optimizing marketing resource allocation are c
   - PCA is used to reduce the number of TF-IDF features extracted from the reviews (dimensionality reduction), while getting rid of collinear features which will end up in a single PCA component.
   - Vectorized reviews are scaled from 0 to 1 via MinMaxScaler() prior to dimensionality reduction via PCA(), since 0 to 1 scaling is a must for PCA. Not all models will utilize PCA.
 - The vectorized and features-reduced reviews will now be referred as the processed reviews.
-  
-## Results
-| Model    | Accuracy | Precision | Recall |
-| :-------- | -------: | --------: | -------: |
-| Logistic Regression       | 86% | 84% | 73% |
-| Logistic Regression (PCA) | 85% | 84% | 70% |
-| Random Forest             | 86% | 85% | 71% |
-| Decision Tree             | 78% | 70% | 65% |
-| Decision Tree (PCA)       | 81% | 74% | 70% |
 
-## Assumptions of These Models
+## Introduction of The Compared Models
 - **_Logistic Regression_**
   - **_Feature Importance:_** Provides straightforward interpretation, namely importance features stating which aspects of hotel reviews influence the likelihood of customer churn.
   - **_Commonly Used Model:_** It is a simple yet effective approach to modeling binary response variables (in this case churn vs non-churn) and can serve as a solid baseline model to compare against our other models.
-  - **_GridSearchCV():_**  Tuning was kept simple with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
+  - **Hyperparameter Tuning:_**  Tuning with cross-validation was kept simple with 5-fold cross-validation and grid search with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
 - **_Random Forest_**
   - **_Nonlinear Relationships:_** Can also provide features importance as well as capture nonlinear relationships between features effectively. In the context of hotel reviews, this model type can better handle the complex relationships of sentimental values within the reviews.
   - **_PCA Warning:_** Model was not trained with the processed reviews, since it does not perform well when features are monotonic transformations of other features, making the forest trees less independent from each other.
-  - **_GridSearchCV():_** Tuning was first done with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
 - **_Decision Tree_**
   - **_Customer Segmentation:_** Can also provide features importance as well as naturally divide the data into segments based on feature values, which is useful for identifying specific groups of customers who are more likly to churn based on their reviews.
   - **_Highly Interpretable:_** The dividing process can be visualized to be showcased to a non-technical audience.
-  - **_GridSearchCV():_** Tuning was first done with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
-- **_Side Note:_** As mentioned earlier, by achieving a high rate of predicting customers who will actually churn, or True Positives (TP), we can ensure that our marketing efforts are targeted towards the proper audience. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn, or False Positives (FP). Naturally, this aligns with the need to strive for a higher precision.
+  - **Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+
+## Distribution of Ratings & Target Labeling
+  ![class distribution](images/class_distribution.png)
+  - **_Class Imbalance_:** Imbalance in the ratings distribution can negatively impact the accuracy of the models. Converting the target variable to a binary variable, in this case churn or non-churn, will help alleviate this class imbalance.
+  - **_Non-churn:_** To aid this decision for target labeling, it can be assumed that there is strong evidence in reviews starred 4 and 5 that the customer in question will most likely book a room again or recommend it to friends or family, while giving constructive criticism for some minor negative experience. These customers will be put in the non-churn category.
+  - **_Churn:_** Likewise, there is strong evidence in reviews starred 3, 2 and 1 that the customer in question will either state that the hotel is average compared to others, gave largely negative comments to a majority of their experience, and frankly denies to recommend the hotel to anyone based on their entire experience. These customers will be put in the churn category.
+ 
+## Class Weight
+- THIS IS WRONG, NEEDS REINSTATEMENT Since the class balance is still imbalanced (roughly 1:2 for churn:non-churn), we can simply use the tuning hyperparameter "class_weight" available in all our compared models, instead of considering techniques like resampling or SMOTE. Such techniques **_will_** be necessary when building models that predict multiple classes, such as the five unique ratings apparent in the reviews.
+- As mentioned earlier, by achieving a high rate of predicting customers who will actually churn, or True Positives (TP), we can ensure that our marketing efforts are targeted towards the proper audience. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn, or False Positives (FP). Naturally, this aligns with the need to strive for a higher precision.
     ![precisionvsrecall](images/precision_vs_recall.png)
--  **_FINAL VERDICT:_** Random Forest, as of development on 8/31/2023, was able to achieve the best accuracy and precision, where the other compared models could not.
+- Therefore, "class_weight" will be individually 
+
+## Results
+| Model    | Accuracy | Precision | Recall |
+| :-------- | -------: | --------: | -------: |
+| Logistic Regression       | 86% | 89% | 67% |
+| Logistic Regression (PCA) | 84% | 78% | 75% |
+| Random Forest             | 86% | 85% | 71% |
+| Decision Tree             | 78% | 79% | 50% |
+| Decision Tree (PCA)       | 81% | 74% | 70% |
+
+![ROC_curves](images/ROC_curves.png)
+
+## Final Verdict
+- Random Forest, as of development on 9/1/2023, was able to achieve the best accuracy and precision, where the other compared models could not.
 
 ## Limitations & Future Improvements
-- PCA is known to perform worse for datasets with more features than samples. The number of "features" created by preprocessing is far too greater than the number of review samples scraped, which is only around 2000. Between "Logistic Regression" and "Logistic Regression (PCA)", with the ability to scrape a much larger number of recent reviews, we should see better performance for the latter.
-- Random Forest also typically loses performance when there are more features than samples, therefore the ability to scrape more reviews is needed.
-- However, Decision Tree is prone to overfitting with addition of more data
-- Models compared can be extended to K Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes, all of which can be implemented as binary classifiers.
-- Feature engineering can be extended to calculated sentiment scores from each review, one-hot coded topics extracted from each review, and review length.
+- **_Validation Tests:_**
+  - PCA is known to perform worse for datasets with more features than samples. The number of "features" created by preprocessing is far too greater than the number of review samples scraped, which is only around 2000. Between "Logistic Regression" and "Logistic Regression (PCA)", with the ability to scrape a much larger number of recent reviews, we should see better performance for the latter.
+  - Random Forest also typically loses performance when there are more features than samples, therefore the ability to scrape more reviews is needed.
+  - However, Decision Tree is prone to overfitting with addition of more data
+- **_Modeling:_** Models compared can be extended to K Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes, all of which can be implemented as binary classifiers.
+- **_Feature Engineering:_** Features can be extended to include the review length, calculated sentiment scores from each review, one-hot coded topics extracted from each review.
 
 ## Repository Structure
 
