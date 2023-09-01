@@ -42,8 +42,8 @@ Increasing customer retention and optimizing marketing resource allocation are c
 ## Results
 | Model    | Accuracy | Precision | Recall |
 | :-------- | -------: | --------: | -------: |
-| Logistic Regression       | 84% | 72% | 87% |
-| Logistic Regression (PCA) | 83% | 71% | 86% |
+| Logistic Regression       | 86% | 84% | 73% |
+| Logistic Regression (PCA) | 85% | 84% | 70% |
 | Random Forest             | 86% | 85% | 71% |
 | Decision Tree             | 78% | 70% | 65% |
 | Decision Tree (PCA)       | 81% | 74% | 70% |
