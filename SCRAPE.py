@@ -15,8 +15,8 @@ import csv
 # Define a list of stop words
 stop_words = list(get_stop_words('en'))  # About 900 stopwords
 nltk_words = list(stopwords.words('english'))  # About 150 stopwords
-punctuations = [".", "'", ","]
-stop_words.extend(nltk_words + punctuations)
+# punctuations = [".", ","]
+stop_words.extend(nltk_words)  # + punctuations)
 
 # Process each sentence to extract relevant information
 processed_review = []
@@ -69,10 +69,10 @@ for page in hotel_pages:
 
             print(hotelName.text)
 
-            # reviewWithReadmoreAndTitle = " ".join((title.span.text.strip(), reviewWithReadmore.span.text.strip()))  # noqa: E501
             tokenizer = RegexpTokenizer(r'\w+')
-            word_list = tokenizer.tokenize(reviewWithReadmore.span.text.strip().lower())  # noqa: E501
-            output = [w for w in word_list if not w in stop_words]  # noqa: E501
+            reviewWithReadmoreAndTitle = " ".join((title.span.text.strip().lower(), reviewWithReadmore.span.text.strip().lower()))  # noqa: E501
+            word_list = tokenizer.tokenize(reviewWithReadmoreAndTitle)  # noqa: E501
+            word_list = [w for w in word_list if not w in stop_words]  # noqa: E501
             processed_review = ' '.join(word_list)
             print(processed_review)
 
