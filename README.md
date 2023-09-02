@@ -8,8 +8,6 @@
 Badge [source](https://shields.io/)
 
 # Key findings: As of development on 9/1/2023, Random Forest was able to achieve the best in correctly predicting a customer will either churn or not churn (accuracy) and correctly predicting a customer will churn (precision).
-#### TODO:
-- Ability to simulate text preprocessing and churn prediction from user input in live action using front-end (Node.js, React, either MySQL or PostgreSQL for simplicity or scalability)
 
 ## Author
 - [@duynlq](https://github.com/duynlq)
@@ -54,19 +52,26 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - **_Logistic Regression_**
   - **_Feature Importance:_** Provides straightforward interpretation, namely importance features stating which aspects of hotel reviews influence the likelihood of customer churn.
   - **_Commonly Used Model:_** It is a simple yet effective approach to modeling binary response variables (in this case churn vs non-churn) and can serve as a solid baseline model to compare against our other models.
-  - **Hyperparameter Tuning:_**  Tuning with cross-validation was kept simple with 5-fold cross-validation and grid search with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
-- **_Random Forest_**
-  - **_Nonlinear Relationships:_** Can also provide features importance as well as capture nonlinear relationships between features effectively. In the context of hotel reviews, this model type can better handle the complex relationships of sentimental values within the reviews.
-  - **_PCA Warning:_** Model was not trained with the processed reviews, since it does not perform well when features are monotonic transformations of other features, making the forest trees less independent from each other.
-  - **Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **_Hyperparameter Tuning:_**  Tuning with cross-validation was kept simple with 5-fold cross-validation and grid search with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
+  - **_Validation:_** TODO
+  - **_Underlying Math:_** TODO
 - **_Decision Tree_**
   - **_Customer Segmentation:_** Can also provide features importance as well as naturally divide the data into segments based on feature values, which is useful for identifying specific groups of customers who are more likly to churn based on their reviews.
   - **_Highly Interpretable:_** The dividing process can be visualized to be showcased to a non-technical audience.
-  - **Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **_Validation:_** TODO
+  - **_Underlying Math:_** TODO
+- **_Random Forest_**
+  - **_Nonlinear Relationships:_** Can also provide features importance as well as capture nonlinear relationships between features effectively. In the context of hotel reviews, this model type can better handle the complex relationships of sentimental values within the reviews.
+  - **_PCA Warning:_** Model was not trained with the processed reviews, since it does not perform well when features are monotonic transformations of other features, making the forest trees less independent from each other.
+  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **_Validation:_** TODO
+  - **_Underlying Math:_** TODO
+
 
 ## Distribution of Ratings & Target Labeling
-  ![class distribution](images/class_distribution.png)
   - **_Class Imbalance_:** Imbalance in the ratings distribution can negatively impact the accuracy of the models. Converting the target variable to a binary variable, in this case churn or non-churn, will help alleviate this class imbalance.
+    ![class distribution](images/class_distribution.png)
   - **_Non-churn:_** To aid this decision for target labeling, it can be assumed that there is strong evidence in reviews starred 4 and 5 that the customer in question will most likely book a room again or recommend it to friends or family, while giving constructive criticism for some minor negative experience. These customers will be put in the non-churn category.
   - **_Churn:_** Likewise, there is strong evidence in reviews starred 3, 2 and 1 that the customer in question will either state that the hotel is average compared to others, gave largely negative comments to a majority of their experience, and frankly denies to recommend the hotel to anyone based on their entire experience. These customers will be put in the churn category.
 
@@ -85,9 +90,9 @@ Increasing customer retention and optimizing marketing resource allocation are c
 | :-------- | -------: | --------: | -------: |
 | Logistic Regression       | 86% | 81% | 79% |
 | Logistic Regression (PCA) | 84% | 78% | 75% |
-| Random Forest             | 86% | 85% | 71% |
 | Decision Tree             | 78% | 70% | 65% |
 | Decision Tree (PCA)       | 81% | 74% | 70% |
+| Random Forest             | 86% | 85% | 71% |
 
 ![ROC_curves](images/ROC_curves.png)
 
@@ -105,8 +110,16 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - **_Modeling:_** Models compared can be extended to K-Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes, all of which can be implemented as binary classifiers.
 - **_Feature Engineering:_** Features can be extended to include the review length, calculated sentiment scores from each review, and one-hot coded topics extracted from each review.
 
-## Repository Structure
-
+## TODO
+- Compared models validation and underlying math.
+- Threshold selection on best model (Random Forest).
+- Shap Values (with important features table).
+- Predicting A New Review (ft. Chat-GPT).
+- Scale the scraped reviews to the next pages of hotels after the first 10, since it is feasible.
+- Ability to simulate text preprocessing and churn prediction from user input in live action using front-end (Flask App OR Node.js, React, either MySQL or PostgreSQL for simplicity or scalability).
+- K-Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes.
+- Incorporate review length, calculated sentiment scores from each review, and one-hot coded topics extracted from each review.
+  
 ## References
 - (1) https://dl.acm.org/doi/10.3115/976909.979640
 - (2) https://www.sciencedirect.com/science/article/pii/S0167923612001340#bb0070
