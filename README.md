@@ -111,12 +111,13 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - **_Feature Engineering:_** Features can be extended to include the review length, calculated sentiment scores from each review, and one-hot coded topics extracted from each review.
 
 ## TODO
-- Compared models validation and underlying math
-- Threshold selection on best model (Random Forest)
-- Shap Values (with important features table)
-- Predicting A New Review (ft. Chat-GPT)
-- Ability to simulate text preprocessing and churn prediction from user input in live action using front-end (Flask App OR Node.js, React, either MySQL or PostgreSQL for simplicity or scalability)
-- K-Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes
+- Compared models validation and underlying math.
+- Threshold selection on best model (Random Forest).
+- Shap Values (with important features table).
+- Predicting A New Review (ft. Chat-GPT).
+- Scale the scraped reviews to the next pages of hotels after the first 10, since it is feasible.
+- Ability to simulate text preprocessing and churn prediction from user input in live action using front-end (Flask App OR Node.js, React, either MySQL or PostgreSQL for simplicity or scalability).
+- K-Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes.
 - Incorporate review length, calculated sentiment scores from each review, and one-hot coded topics extracted from each review.
   
 ## References
