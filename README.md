@@ -7,7 +7,9 @@
 
 Badge [source](https://shields.io/)
 
-# Key findings: UNDER CONSTRUCTION
+# Key findings: As of development on 9/1/2023, Random Forest was able to achieve the best in correctly predicting a customer will either churn or not churn (accuracy) and correctly predicting a customer will churn (precision).
+#### TODO:
+- Ability to simulate text preprocessing and churn prediction from user input in live action using front-end (Node.js, React, either MySQL or PostgreSQL for simplicity or scalability)
 
 ## Author
 - [@duynlq](https://github.com/duynlq)
@@ -67,34 +69,41 @@ Increasing customer retention and optimizing marketing resource allocation are c
   - **_Class Imbalance_:** Imbalance in the ratings distribution can negatively impact the accuracy of the models. Converting the target variable to a binary variable, in this case churn or non-churn, will help alleviate this class imbalance.
   - **_Non-churn:_** To aid this decision for target labeling, it can be assumed that there is strong evidence in reviews starred 4 and 5 that the customer in question will most likely book a room again or recommend it to friends or family, while giving constructive criticism for some minor negative experience. These customers will be put in the non-churn category.
   - **_Churn:_** Likewise, there is strong evidence in reviews starred 3, 2 and 1 that the customer in question will either state that the hotel is average compared to others, gave largely negative comments to a majority of their experience, and frankly denies to recommend the hotel to anyone based on their entire experience. These customers will be put in the churn category.
- 
+
 ## Class Weight
-- THIS IS WRONG, NEEDS REINSTATEMENT, BAD PRACTICE TO USE class_weight FOR PRECISION-FOCUSED, Since the class balance is still imbalanced (roughly 1:2 for churn:non-churn), we can simply use the tuning hyperparameter "class_weight" available in all our compared models, instead of considering techniques like resampling or SMOTE. Such techniques **_will_** be necessary when building models that predict multiple classes, such as the five unique ratings apparent in the reviews.
-- As mentioned earlier, by achieving a high rate of predicting customers who will actually churn, or True Positives (TP), we can ensure that our marketing efforts are targeted towards the proper audience. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn, or False Positives (FP). Naturally, this aligns with the need to strive for a higher precision.
-    ![precisionvsrecall](images/precision_vs_recall.png)
-- Therefore, "class_weight" will be individually 
+- As mentioned earlier, by achieving a high rate of predicting customers who will actually churn, or True Positives (TP), we can ensure that our marketing efforts are targeted towards the proper audience. However, since we can also sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn, or False Positives (FP). Naturally, this aligns with the need to strive for a higher precision.
+![precisionvsrecall](images/precision_vs_recall.png)
+- And to reiterate from the distribution of churn, the majority of reviews are "non-churn", whereas the minority of reviews is "churn".
+- Tuning with the hyperparameter "class_weight", which is available in all our compared models, can prevent them from being biased toward the majority class, or in other words, the models by default will have more chances at predicting for "non-churn". Therefore, by assigning more weight to the minority class, we are essentially giving the models more chance at predicting for "churn" instead, or in other words, the ability to increase the production of both TP and FP (imagine the red and green half-circles increase at the same time).
+- However, our goal is to not produce more false positives, but rather minimize them. Therefore, the number of positives produced by our models can be kept at default, where any additional weight assigned to either "churn" or "non-churn" is unnecessary.
+- We can still attempt to tune the hyperparameter "class_weight" to see if the algorithms retrieved from Python will correctly not assign weight to either classes and choose "balanced", which is the said intended purpose.
+- Fortunately, we can force the ability to minimize FP by applying a technique post-modeling called threshold selection.
+- **_Side Note:_** In cases like medical diagnosis or fraud detection, False Negatives (FN) can have serious consequences (saying that a patient does not have cancer while he/she actually does is very detrimental, saying that a transaction is not fraud while it actually is, is very detrimental). By giving the models the ability to produce more TP even if it results in more FP, FN will automatically decrease. Therefore, in cases with possibly 3 or more classes, techniques like resampling or SMOTE must be considered, in addition to assigning more weight to a certain class by tuning the compared models with "class_weight".
 
 ## Results
 | Model    | Accuracy | Precision | Recall |
 | :-------- | -------: | --------: | -------: |
-| Logistic Regression       | 86% | 89% | 67% |
+| Logistic Regression       | 86% | 81% | 79% |
 | Logistic Regression (PCA) | 84% | 78% | 75% |
 | Random Forest             | 86% | 85% | 71% |
-| Decision Tree             | 78% | 79% | 50% |
+| Decision Tree             | 78% | 70% | 65% |
 | Decision Tree (PCA)       | 81% | 74% | 70% |
 
 ![ROC_curves](images/ROC_curves.png)
 
 ## Final Verdict
-- Random Forest, as of development on 9/1/2023, was able to achieve the best accuracy and precision, where the other compared models could not.
+- As of development on 9/1/2023, Random Forest was able to achieve the best in both evaluation metrics accuracy and precision, where the other compared models could not.
+- Despite having the same best accuracy and highest Area Under the Curve (AUC), Logistic Regression would be innapropriate since it produced a lower precision rate.
+- **_Side Note:_** All models except Decision Tree (PCA) chose "class_weight" to be 1:1. This model chose to assign twice as much weight to "non-churn" instead (1:2 churn:non-churn), where it can be assumed that when training Decision Tree with post-PCA features, the majority class "non-churn" needed twice as much representation within the data.
 
 ## Limitations & Future Improvements
 - **_Validation Tests:_**
-  - PCA is known to perform worse for datasets with more features than samples. The number of "features" created by preprocessing is far too greater than the number of review samples scraped, which is only around 2000. Between "Logistic Regression" and "Logistic Regression (PCA)", with the ability to scrape a much larger number of recent reviews, we should see better performance for the latter.
+  - PCA is known to perform worse for datasets with more features than samples. The number of features created by preprocessing is far too greater than the number of review samples scraped, which is only around 2000.
+  - Between "Logistic Regression" and "Logistic Regression (PCA)", with the ability to scrape a much larger number of recent reviews, we should see better performance for the latter.
   - Random Forest also typically loses performance when there are more features than samples, therefore the ability to scrape more reviews is needed.
-  - However, Decision Tree is prone to overfitting with addition of more data
-- **_Modeling:_** Models compared can be extended to K Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes, all of which can be implemented as binary classifiers.
-- **_Feature Engineering:_** Features can be extended to include the review length, calculated sentiment scores from each review, one-hot coded topics extracted from each review.
+  - However, Decision Tree is also prone to overfitting with addition of more data.
+- **_Modeling:_** Models compared can be extended to K-Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes, all of which can be implemented as binary classifiers.
+- **_Feature Engineering:_** Features can be extended to include the review length, calculated sentiment scores from each review, and one-hot coded topics extracted from each review.
 
 ## Repository Structure
 
