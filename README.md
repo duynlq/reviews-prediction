@@ -110,9 +110,6 @@ Increasing customer retention and optimizing marketing resource allocation are c
 - **_Modeling:_** Models compared can be extended to K-Neared Neighbors (KNN), Support Vector Machines (SVM), and Naive Bayes, all of which can be implemented as binary classifiers.
 - **_Feature Engineering:_** Features can be extended to include the review length, calculated sentiment scores from each review, and one-hot coded topics extracted from each review.
 
-## Repository Structure
-
-
 ## TODO
 - Compared models validation and underlying math
 - Threshold selection on best model (Random Forest)
