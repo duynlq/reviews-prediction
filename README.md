@@ -5,16 +5,18 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/duynlq/scraped-reviews-customer-churn-prediction)
 ![GitHub repo size](https://img.shields.io/github/repo-size/duynlq/scraped-reviews-customer-churn-prediction)
 
-Badge [source](https://shields.io/)
-
-# Key findings: As of development on 9/1/2023, Random Forest was able to achieve the best in correctly predicting a customer will either churn or not churn (accuracy) and correctly predicting a customer will churn (precision).
-
 ## Author
 - [@duynlq](https://github.com/duynlq)
 
 ## Business Problem
+- In the advent of negative reviews, hotel businesses need to deal with them by considering recovery tactics such as additional staff training, more amenities, and incentivized e-commerce like the email above. 
+- Increasing customer retention and optimizing marketing resource allocation are critical challenges for the hospitality industry.
+- I aim to develop a predictive model that identifies customers at a high risk of churning from hotel services.
+- Since hotels can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn. By achieving a high rate of predicting customers who will actually churn, we can ensure that our marketing efforts are targeted towards the proper audience, and therefore maximizing our customer retention rates and reducing unnecessary marketing expenses.
 
-Increasing customer retention and optimizing marketing resource allocation are critical challenges for the hospitality industry. I aim to develop an optimal predictive model that identifies customers at a high risk of churning from our services. Since we can sustain significant costs in incentivized marketing for churn customers, my primary focus is on minimizing the number of customers wrongly identifies as churn. By achieving a high rate of predicting customers who will actually churn, we can ensure that our marketing efforts are targeted towards the proper audience, and therefore maximizing our customer retention rates and reducing unnecessary marketing expenses.
+Badge [source](https://shields.io/)
+
+# Key findings: As of development on 9/1/2023, Random Forest was able to achieve the best in correctly predicting a customer will either churn or not churn (accuracy) and correctly predicting a customer will churn (precision).
 
 ## Data Source
 
