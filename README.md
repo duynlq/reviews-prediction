@@ -47,12 +47,6 @@ Badge [source](https://shields.io/)
   - Not all models will utilize PCA.
 - **_Principle Component Analysis (PCA):_**
   - PCA is used to reduce the number of TF-IDF features extracted from the reviews (dimensionality reduction), while getting rid of collinear features which will end up in a single PCA component.
-- The effects of MinMaxScaler() and PCA() can be seen below.
-  ![reviews distribution](images/effects_of_scaler_PCA.png)
-- Here's how scaling and PCA can benefit the comparison models:
-  - **_Convergence:_** Logistic regression can converge faster and more reliably when our numerical features are on similar scales. Scaling helps prevent one feature from dominating the updates during training.
-  - **_Regularization:_** Regularization techniques like L1 or L2, or rather the penalty parameter in sklearn's LogisticRegression() for example, can help ensure that regularization affects all features more uniformly. This can lead to better feature selection and prevent overemphasis on dominant features.
-  - **_Non-linearity:_** Scaling helps logistic regression perform better since the relationships between our features and the target variable are not linear.
 - The vectorized and features-reduced reviews will now be referred as the processed reviews.
 
 ## The Comparison Models
