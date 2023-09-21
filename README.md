@@ -41,13 +41,6 @@ Badge [source](https://shields.io/)
   - IDEA: Build app that showcases the cleaned and processed reviews live in action prior for modeling.
 - **_Train/test Split:_** 70% of the reviews (independent variable) and our target churn/non-churn (dependent variable) is used to train our models, where 30% is used to validate/test them. This ratio is a common practice in data science.
 - **_Vectorization:_** TfidfVectorizer() is used to omit words that both appear in more than 10% and less than 5% of the cleaned and processed reviews, before converting then into numerical features which embody a matrix of TF-IDF features (Term Frequency-Inverse Document Frequency). As said earlier, this format is most suitable for machine learning algorithms.
-- **_MinMaxScaler:_**
-  - Vectorized reviews are scaled from 0 to 1 via **MinMaxScaler()** prior to dimensionality reduction via **PCA()**.
-  - Zero-to-one scaling is a must for PCA.
-  - Not all models will utilize PCA.
-- **_Principle Component Analysis (PCA):_**
-  - PCA is used to reduce the number of TF-IDF features extracted from the reviews (dimensionality reduction), while getting rid of collinear features which will end up in a single PCA component.
-- The vectorized and features-reduced reviews will now be referred as the processed reviews.
 
 ## The Comparison Models
 - **_Logistic Regression_**
