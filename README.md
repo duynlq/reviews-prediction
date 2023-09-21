@@ -22,46 +22,6 @@ Badge [source](https://shields.io/)
 - Customers are more likely to put trust in a hotel based on its recent reviews. 59% of my scraped reviews are from 2023, despite having a time range from December 2017 to August 2023.
   ![reviews distribution](images/scraped_reviews_distribution.png)
 
-## Data Validation & Cleaning
-- **_Duplicate Removal:_** Removing duplicate reviews is a must to avoid introducing bias to our models. Since the rows of reviews (independent variable) are our only interest, duplicates were checked and none were found.
-- **_Missing Data:_** Among all columns, missing values was only found in the "date_stayed" column, but since this variable was only used for visualizations and not in our models, it was left as is.
-- **_Text Cleaning:_** The reviews that are stored in my local database, which embody both the title and the "Read More" section of the reviews, are extracted from the "span" HTML tag and processed by the following steps:
-  - Convert to lowercase.
-  - Tokenize by isolating one or more word characters appeared in a row (alphanumberic characters plus underscore "_").
-  - Remove English stop words from "stop_words" (174 stop words) and "nltk" (179 stop words) Python libraries.
-  - Remove punctuations.
-
-## Preprocessing
-- **_Text Processing:_** The following steps are necessary for building a quality vocabulary from the cleaned corpus, or collection of texts, before converting it into numerical features that are most suitable for machine learning algorithms.
-  - Tokenize by isolating one or more uppercase and lowercase letters appeared in a row (AAAHH).
-  - Tokenize by isolating one or more lowercase letters immediately following an apostrophe "'" appeared in a row (I'mm).
-  - Assign part-of-speech tags from "nltk" to the processed words so far, based on both their definitions and their contexts.
-  - Exclusively includes nouns, adjectives, verbs, and adverbs from WordNet with a custom function. "Early [research papers] (1) has focused on using adjectives such as ‘good’ and ‘bad’ and adverbs like ‘terrifically’ and ‘hatefully’ as the important indicators of sentiment (2). Intuitively, this is what we would expect of an opinionated document. However, later [research papers] (3) also suggests that other parts of speech such as verbs and even nouns (4) could be valuable indicators of sentiment."
-  - Lemmatize by replacing words with their root form (caring -> care, feet -> foot, striped -> strip) to reduce dimensionality and maintain consistency. The latter example is one problem that is yet to be taken care of.
-  - IDEA: Build app that showcases the cleaned and processed reviews live in action prior for modeling.
-- **_Train/test Split:_** 70% of the reviews (independent variable) and our target churn/non-churn (dependent variable) is used to train our models, where 30% is used to validate/test them. This ratio is a common practice in data science.
-- **_Vectorization:_** TfidfVectorizer() is used to omit words that both appear in more than 10% and less than 5% of the cleaned and processed reviews, before converting then into numerical features which embody a matrix of TF-IDF features (Term Frequency-Inverse Document Frequency). As said earlier, this format is most suitable for machine learning algorithms.
-
-## The Comparison Models
-- **_Logistic Regression_**
-  - **_Feature Importance:_** Provides straightforward interpretation, namely importance features stating which aspects of hotel reviews influence the likelihood of customer churn.
-  - **_Commonly Used Model:_** It is a simple yet effective approach to modeling binary response variables (in this case churn vs non-churn) and can serve as a solid baseline model to compare against our other models.
-  - **_Hyperparameter Tuning:_**  Tuning with cross-validation was kept simple with 5-fold cross-validation and grid search with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
-  - **_Validation:_** TODO
-  - **_Underlying Math:_** TODO
-- **_Random Forest_**
-  - **_Nonlinear Relationships:_** Can also provide features importance as well as capture nonlinear relationships between features effectively. In the context of hotel reviews, this model type can better handle the complex relationships of sentimental values within the reviews.
-  - **_PCA Warning:_** Model was not trained with the processed reviews, since it does not perform well when features are monotonic transformations of other features, making the forest trees less independent from each other.
-  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
-  - **_Validation:_** TODO
-  - **_Underlying Math:_** TODO
-- **_Decision Tree_**
-  - **_Customer Segmentation:_** Can also provide features importance as well as naturally divide the data into segments based on feature values, which is useful for identifying specific groups of customers who are more likly to churn based on their reviews.
-  - **_Highly Interpretable:_** The dividing process can be visualized to be showcased to a non-technical audience.
-  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
-  - **_Validation:_** TODO
-  - **_Underlying Math:_** TODO
-
 ## Distribution of Ratings & Target Labeling
   - **_Class Imbalance_:** Imbalance in the ratings distribution can negatively impact the accuracy of the models. Converting the target variable to a binary variable, in this case churn or non-churn, will help alleviate this class imbalance.
     ![class distribution](images/class_distribution.png)
@@ -78,14 +38,52 @@ Badge [source](https://shields.io/)
 - Fortunately, we can force the ability to minimize FP by applying a technique post-modeling called threshold selection.
 - **_Side Note:_** In cases like medical diagnosis or fraud detection, False Negatives (FN) can have serious consequences (saying that a patient does not have cancer while he/she actually does is very detrimental, saying that a transaction is not fraud while it actually is, is very detrimental). By giving the models the ability to produce more TP even if it results in more FP, FN will automatically decrease. Therefore, in cases with possibly 3 or more classes, techniques like resampling or SMOTE must be considered, in addition to assigning more weight to a certain class by tuning the compared models with "class_weight".
 
+## Data Validation & Cleaning
+- **_Duplicate Removal:_** Removing duplicate reviews is a must to avoid introducing bias to our models. Since the rows of reviews (independent variable) are our only interest, duplicates were checked and none were found.
+- **_Missing Data:_** Among all columns, missing values was only found in the "date_stayed" column, but since this variable was only used for visualizations and not in our models, it was left as is.
+- **_Text Cleaning:_** The reviews that are stored in my local database, which embody both the title and the "Read More" section of the reviews, are extracted from the "span" HTML tag and processed by the following steps:
+  - Convert to lowercase.
+  - Tokenize by isolating one or more word characters appeared in a row (alphanumberic characters plus underscore "_").
+  - Remove English stop words from "stop_words" (174 stop words) and "nltk" (179 stop words) Python libraries.
+  - Remove punctuations.
+
+## Preprocessing
+- **_Building Vocabulary:_** The following steps are necessary for building a quality vocabulary from the cleaned corpus, or collection of texts, before converting it into numerical features that are most suitable for machine learning algorithms.
+  - Tokenize by isolating one or more uppercase and lowercase letters appeared in a row (AAAHH).
+  - Tokenize by isolating one or more lowercase letters immediately following an apostrophe "'" appeared in a row (I'mm).
+  - Assign part-of-speech tags from "nltk" to the processed words so far, based on both their definitions and their contexts.
+  - Exclusively includes nouns, adjectives, verbs, and adverbs from WordNet with a custom function. "Early [research papers] (Reference 1) has focused on using adjectives such as ‘good’ and ‘bad’ and adverbs like ‘terrifically’ and ‘hatefully’ as the important indicators of sentiment (Reference 2). Intuitively, this is what we would expect of an opinionated document. However, later [research papers] (Reference 3) also suggests that other parts of speech such as verbs and even nouns (Reference 4) could be valuable indicators of sentiment."
+  - Lemmatize by replacing words with their root form (caring -> care, feet -> foot, striped -> strip) to reduce dimensionality and maintain consistency. The latter example is one problem that is yet to be taken care of.
+  - IDEA: Build app that showcases the cleaned and processed reviews live in action prior for modeling.
+- **_Train/test Split:_** 70% of the reviews (independent variable) and our target churn/non-churn (dependent variable) is used to train our models, where 30% is used to validate/test them. This ratio is a common practice in data science.
+- **_Vectorization:_** TfidfVectorizer() is used to omit words that both appear in more than 10% and less than 5% of the cleaned and processed reviews, before converting then into numerical features which embody a matrix of TF-IDF features (Term Frequency-Inverse Document Frequency). As said earlier, this format is most suitable for machine learning algorithms.
+
+## The Comparison Models
+- **_Benefits of using Logistic Regression_**
+  - **_Feature Importance:_** Provides straightforward interpretation, namely importance features stating which aspects of hotel reviews influence the likelihood of customer churn.
+  - **_Commonly Used Model:_** It is a simple yet effective approach to modeling binary response variables (in this case churn vs non-churn) and can serve as a solid baseline model to compare against our other models.
+  - **_Hyperparameter Tuning:_**  Tuning with cross-validation was kept simple with 5-fold cross-validation and grid search with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
+  - **_Validation:_** TODO
+  - **_Underlying Math:_** TODO
+- **_Benefits of using Random Forest_**
+  - **_Nonlinear Relationships:_** Can also provide features importance as well as capture nonlinear relationships between features effectively. In the context of hotel reviews, this model type can better handle the complex relationships of sentimental values within the reviews.
+  - **_PCA Warning:_** Model was not trained with the processed reviews, since it does not perform well when features are monotonic transformations of other features, making the forest trees less independent from each other.
+  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **_Validation:_** TODO
+  - **_Underlying Math:_** TODO
+- **_Benefits of using Decision Tree_**
+  - **_Customer Segmentation:_** Can also provide features importance as well as naturally divide the data into segments based on feature values, which is useful for identifying specific groups of customers who are more likly to churn based on their reviews.
+  - **_Highly Interpretable:_** The dividing process can be visualized to be showcased to a non-technical audience.
+  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **_Validation:_** TODO
+  - **_Underlying Math:_** TODO
+
 ## Results
 | Model    | Accuracy | Precision | Recall |
 | :-------- | -------: | --------: | -------: |
 | Logistic Regression       | 86% | 81% | 79% |
-| Logistic Regression (PCA) | 84% | 78% | 75% |
-| Decision Tree             | 78% | 70% | 65% |
-| Decision Tree (PCA)       | 81% | 74% | 70% |
 | Random Forest             | 86% | 85% | 71% |
+| Decision Tree             | 78% | 70% | 65% |
 
 ![ROC_curves](images/ROC_curves.png)
 
