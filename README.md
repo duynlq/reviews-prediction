@@ -41,22 +41,25 @@ Badge [source](https://shields.io/)
   - IDEA: Build app that showcases the cleaned and processed reviews live in action prior for modeling.
 - **_Train/test Split:_** 70% of the reviews (independent variable) and our target churn/non-churn (dependent variable) is used to train our models, where 30% is used to validate/test them. This ratio is a common practice in data science.
 - **_Vectorization:_** TfidfVectorizer() is used to omit words that both appear in more than 10% and less than 5% of the cleaned and processed reviews, before converting then into numerical features which embody a matrix of TF-IDF features (Term Frequency-Inverse Document Frequency). As said earlier, this format is most suitable for machine learning algorithms.
+- **_MinMaxScaler:_**
+  - Vectorized reviews are scaled from 0 to 1 via **MinMaxScaler()** prior to dimensionality reduction via **PCA()**.
+  - Zero-to-one scaling is a must for PCA.
+  - Not all models will utilize PCA.
 - **_Principle Component Analysis (PCA):_**
   - PCA is used to reduce the number of TF-IDF features extracted from the reviews (dimensionality reduction), while getting rid of collinear features which will end up in a single PCA component.
-  - Vectorized reviews are scaled from 0 to 1 via MinMaxScaler() prior to dimensionality reduction via PCA(), since 0 to 1 scaling is a must for PCA. Not all models will utilize PCA.
+- The effects of MinMaxScaler() and PCA() can be seen below.
+  ![reviews distribution](images/effects_of_scaler_PCA.png)
+- Here's how scaling and PCA can benefit the comparison models:
+  - **_Convergence:_** Logistic regression can converge faster and more reliably when our numerical features are on similar scales. Scaling helps prevent one feature from dominating the updates during training.
+  - **_Regularization:_** Regularization techniques like L1 or L2, or rather the penalty parameter in sklearn's LogisticRegression() for example, can help ensure that regularization affects all features more uniformly. This can lead to better feature selection and prevent overemphasis on dominant features.
+  - **_Non-linearity:_** Scaling helps logistic regression perform better since the relationships between our features and the target variable are not linear.
 - The vectorized and features-reduced reviews will now be referred as the processed reviews.
 
-## Introduction of The Compared Models
+## The Comparison Models
 - **_Logistic Regression_**
   - **_Feature Importance:_** Provides straightforward interpretation, namely importance features stating which aspects of hotel reviews influence the likelihood of customer churn.
   - **_Commonly Used Model:_** It is a simple yet effective approach to modeling binary response variables (in this case churn vs non-churn) and can serve as a solid baseline model to compare against our other models.
   - **_Hyperparameter Tuning:_**  Tuning with cross-validation was kept simple with 5-fold cross-validation and grid search with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
-  - **_Validation:_** TODO
-  - **_Underlying Math:_** TODO
-- **_Decision Tree_**
-  - **_Customer Segmentation:_** Can also provide features importance as well as naturally divide the data into segments based on feature values, which is useful for identifying specific groups of customers who are more likly to churn based on their reviews.
-  - **_Highly Interpretable:_** The dividing process can be visualized to be showcased to a non-technical audience.
-  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
   - **_Validation:_** TODO
   - **_Underlying Math:_** TODO
 - **_Random Forest_**
@@ -65,7 +68,12 @@ Badge [source](https://shields.io/)
   - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
   - **_Validation:_** TODO
   - **_Underlying Math:_** TODO
-
+- **_Decision Tree_**
+  - **_Customer Segmentation:_** Can also provide features importance as well as naturally divide the data into segments based on feature values, which is useful for identifying specific groups of customers who are more likly to churn based on their reviews.
+  - **_Highly Interpretable:_** The dividing process can be visualized to be showcased to a non-technical audience.
+  - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and max_leaf_nodes, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
+  - **_Validation:_** TODO
+  - **_Underlying Math:_** TODO
 
 ## Distribution of Ratings & Target Labeling
   - **_Class Imbalance_:** Imbalance in the ratings distribution can negatively impact the accuracy of the models. Converting the target variable to a binary variable, in this case churn or non-churn, will help alleviate this class imbalance.
