@@ -61,17 +61,19 @@ Badge [source](https://shields.io/)
 
 ## The Comparison Models
 - **_Benefits of using Logistic Regression_**
-  - **_Feature Importance:_** Provides straightforward interpretation, namely importance features stating which aspects of hotel reviews influence the likelihood of customer churn.
-  - **_Commonly Used Model:_** It is a simple yet effective approach to modeling binary response variables (in this case churn vs non-churn) and can serve as a solid baseline model to compare against our other models.
-  - **_Hyperparameter Tuning:_**  Tuning with cross-validation was kept simple with 5-fold cross-validation and grid search with class_weight='balanced', C from 0.0 to 1.0, max_iter=100, and penalty between 'none' and 'l2'.
+  - **_Easily Interpretable:_** Provides straightforward interpretation, namely importance features stating which aspects of hotel reviews influence the likelihood of customer churn.
+  - **_Simplicity:_** Logistic regression is a simple yet effective approach to modeling binary response variables (in this case churn vs non-churn) and can serve as a solid baseline model to compare against our other models.
+  - **_Versatility:_** It works great for linearly related data as well as text data, which is often sparse meaning many features are zero as data points. Additionally, it allows regularization to prevent overfitting.
   - **_Validation:_** TODO
   - **_Underlying Math:_** TODO
+    
 - **_Benefits of using Random Forest_**
   - **_Nonlinear Relationships:_** Can also provide features importance as well as capture nonlinear relationships between features effectively. In the context of hotel reviews, this model type can better handle the complex relationships of sentimental values within the reviews.
   - **_PCA Warning:_** Model was not trained with the processed reviews, since it does not perform well when features are monotonic transformations of other features, making the forest trees less independent from each other.
   - **_Hyperparameter Tuning:_** Tuning with cross-validation was first done with 5-fold cross-validation and grid search with max_features and n_estimators, then criterion and max_depth, then min_sample_leaf and min_sample_split, and finally class_weight.
   - **_Validation:_** TODO
   - **_Underlying Math:_** TODO
+    
 - **_Benefits of using Decision Tree_**
   - **_Customer Segmentation:_** Can also provide features importance as well as naturally divide the data into segments based on feature values, which is useful for identifying specific groups of customers who are more likly to churn based on their reviews.
   - **_Highly Interpretable:_** The dividing process can be visualized to be showcased to a non-technical audience.
